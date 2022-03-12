@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"html"
 	"jwt-gin/utils/token"
 	"strings"
@@ -47,6 +48,22 @@ func LoginCheck(username string, password string) (string, error) {
 
 }
 
+func GetUserByID(uid uint) (User, error) {
+
+	var u User
+
+	if err := DB.First(&u, uid).Error; err != nil {
+		return u, errors.New("User not found!")
+	}
+
+	u.PrepareGive()
+
+	return u, nil
+
+}
+func (u *User) PrepareGive() {
+	u.Password = ""
+}
 func (u *User) SaveUser() (*User, error) {
 
 	var err error

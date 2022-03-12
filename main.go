@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"jwt-gin/controllers"
+	"jwt-gin/middlewares"
 	"jwt-gin/models"
 )
 
@@ -21,6 +22,10 @@ func main() {
 	// })
 
 	public.POST("/register", controllers.Register)
+
+	protected := r.Group("/api/admin")
+	protected.Use(middlewares.JwtAuthMiddleware())
+	protected.GET("/user", controllers.CurrentUser)
 
 	r.Run(":8080")
 

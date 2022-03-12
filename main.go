@@ -4,9 +4,12 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"jwt-gin/controllers"
+	"jwt-gin/models"
 )
 
 func main() {
+
+	models.ConnectDataBase()
 
 	r := gin.Default()
 
